@@ -27,6 +27,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Player.hh" />
     <ClInclude Include="src\Framework\event.hh" />
     <ClInclude Include="src\Components\position_component.hh" />
     <ClInclude Include="src\Components\render_component.hh" />

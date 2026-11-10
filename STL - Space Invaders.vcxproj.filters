@@ -51,5 +51,8 @@
     <ClInclude Include="src\Framework\event.hh">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Player.hh">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
