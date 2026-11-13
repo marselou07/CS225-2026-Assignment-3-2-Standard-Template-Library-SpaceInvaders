@@ -9,8 +9,8 @@
 int mode = 0;
 
 bool ShowFrameworkMenu();
-Bullet playerBullet(10, 15, BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
-Player player(AEVec2(0,-200), AEVec2(50,30),AE_COLORS_AIR_FORCE_BLUE, &playerBullet);
+Bullet pBullet(10, 15, BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
+Player player(AEVec2(0,-200), AEVec2(30,20),AE_COLORS_AIR_FORCE_BLUE, &pBullet);
 EventManager PlayerManager;
 CollisionManager ColManager;
 void Level_1_Load()
@@ -20,7 +20,13 @@ void Level_1_Load()
         {
             p->OnInputEvent(event);
         });
-    
+
+    ColManager.addHandler([p](CollisionEvent* event)
+        {
+            p->OnColEvent(event);
+        });
+    ColManager.b = &pBullet;
+    ColManager.p = p;
 }
 
 void Level_1_Init()
@@ -51,7 +57,8 @@ void Level_1_Update()
         PlayerManager.trigger(&shoot);
     }
 
-    playerBullet.Update();
+    pBullet.Update();
+    ColManager.update();
 }
 
 void Level_1_Render()
@@ -60,7 +67,7 @@ void Level_1_Render()
     AEGfxSetClearColor(AEGfxColor(0, 0, 0));
     AEGfxClearBuffer();
     player.Draw();
-    playerBullet.Draw();
+    pBullet.Draw();
 }
 
 void Level_1_Free()

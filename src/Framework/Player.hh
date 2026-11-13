@@ -3,6 +3,7 @@
 #include "entity.hh"
 #include <AEEngine.h>
 #include "EventManager.hh"
+#include "CollisionManager.hh"
 #include "Bullet.hh"
 class Player : public Entity
 {
@@ -13,6 +14,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void OnInputEvent(GameEvent* mEvent);
+	void OnColEvent(CollisionEvent* mEvent);
 	AEVec2 GetPos() { return position; }
 	AEVec2 GetScale() { return size; }
 private:

@@ -14,7 +14,7 @@ public:
     void Deactive();
     AEVec2 position;
     AEVec2 scale;
-    float speed = 250.f;
+    float speed = 270.f;
     int color;
     bool active = false;
     BulletType type;
