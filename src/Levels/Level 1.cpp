@@ -1,13 +1,22 @@
 #include <AEEngine.h>
 #include <imgui/imgui.h>
 #include "Level 1.h"
+#include "../Framework/Player.hh"
+#include "../Framework/PlayerEventManager.hh"
 
 int mode = 0;
 
 bool ShowFrameworkMenu();
-
+Player player(AEVec2(0,-200), AEVec2(100,50),AE_COLORS_AIR_FORCE_BLUE);
+PlayerEventManager PlayerManager;
 void Level_1_Load()
 {
+    Player* p = &player;
+    PlayerManager.addHandler([p](MoveEvent* event)
+        {
+            p->OnInputEvent(event);
+        });
+
 }
 
 void Level_1_Init()
@@ -19,8 +28,18 @@ void Level_1_Update()
     // core keyboard shortcuts and GUI, do not delete this code!
     KeyboardInput();
     bool guiActive = ShowFrameworkMenu();
-
-
+    if (AEInputKeyPressed('A'))
+    {
+        MoveEvent direction ;
+        direction.MoveType = Type::MoveLeft;
+        PlayerManager.trigger(&direction);
+    }
+    if (AEInputKeyPressed('D'))
+    {
+        MoveEvent direction;
+        direction.MoveType = Type::MoveRight;
+        PlayerManager.trigger(&direction);
+    }
 }
 
 void Level_1_Render()
@@ -28,6 +47,7 @@ void Level_1_Render()
     // clear frame buffer, do not delete this code
     AEGfxSetClearColor(AEGfxColor(0, 0, 0));
     AEGfxClearBuffer();
+    player.Draw();
 }
 
 void Level_1_Free()
