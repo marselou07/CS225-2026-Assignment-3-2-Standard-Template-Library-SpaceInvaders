@@ -11,14 +11,22 @@ void Player::Draw()
 	AEGfxRect(position.x , position.y , 0, size.x, size.y, color);
 }
 
-void Player::OnInputEvent(MoveEvent* mMoveEvent)
+void Player::OnInputEvent(GameEvent* mEvent)
 {
-	if (mMoveEvent->MoveType == Type::MoveRight)
+	if (mEvent->PlayerType == Type::MoveRight)
 	{
 		position.x += speed *AEGetFrameTime();
 	}
-	if (mMoveEvent->MoveType == Type::MoveLeft)
+	if (mEvent->PlayerType == Type::MoveLeft)
 	{
 		position.x -= speed * AEGetFrameTime();
 	}
+	if (mEvent->PlayerType == Type::Shoot && shoot)
+	{
+		bullet->active = true;
+		bullet->position.x = position.x ;
+		bullet->position.y = position.y+ size.y;
+		shoot = false;
+	}
+
 }

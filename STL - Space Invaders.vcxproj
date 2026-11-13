@@ -22,21 +22,23 @@
     <ClCompile Include="src\Components\position_component.cc" />
     <ClCompile Include="src\Components\render_component.cc" />
     <ClCompile Include="src\Framework\Bullet.cpp" />
+    <ClCompile Include="src\Framework\CollisionManager.cpp" />
     <ClCompile Include="src\Framework\component.cc" />
     <ClCompile Include="src\Framework\entity.cc" />
-    <ClCompile Include="src\Framework\PlayerEventManager.cc" />
+    <ClCompile Include="src\Framework\EventManager.cc" />
     <ClCompile Include="src\Framework\Player.cc" />
     <ClCompile Include="src\Levels\Level 1.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Framework\Bullet.hh" />
+    <ClInclude Include="src\Framework\CollisionManager.hh" />
     <ClInclude Include="src\Framework\event.hh" />
     <ClInclude Include="src\Components\position_component.hh" />
     <ClInclude Include="src\Components\render_component.hh" />
     <ClInclude Include="src\Framework\component.hh" />
     <ClInclude Include="src\Framework\entity.hh" />
-    <ClInclude Include="src\Framework\PlayerEventManager.hh" />
+    <ClInclude Include="src\Framework\EventManager.hh" />
     <ClInclude Include="src\Framework\Player.hh" />
     <ClInclude Include="src\Levels\Level 1.h" />
   </ItemGroup>

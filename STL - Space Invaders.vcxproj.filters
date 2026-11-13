@@ -34,10 +34,13 @@
     <ClCompile Include="src\Framework\Player.cc">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="src\Framework\PlayerEventManager.cc">
+    <ClCompile Include="src\Framework\EventManager.cc">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="src\Framework\Bullet.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framework\CollisionManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,10 +66,13 @@
     <ClInclude Include="src\Framework\Player.hh">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="src\Framework\PlayerEventManager.hh">
+    <ClInclude Include="src\Framework\EventManager.hh">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="src\Framework\Bullet.hh">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Framework\CollisionManager.hh">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>

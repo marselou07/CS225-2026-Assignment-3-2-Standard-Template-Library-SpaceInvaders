@@ -2,21 +2,25 @@
 #include <imgui/imgui.h>
 #include "Level 1.h"
 #include "../Framework/Player.hh"
-#include "../Framework/PlayerEventManager.hh"
+#include "../Framework/Bullet.hh"
+#include "../Framework/EventManager.hh"
+#include "../Framework/CollisionManager.hh"
 
 int mode = 0;
 
 bool ShowFrameworkMenu();
-Player player(AEVec2(0,-200), AEVec2(100,50),AE_COLORS_AIR_FORCE_BLUE);
-PlayerEventManager PlayerManager;
+Bullet playerBullet(10, 15, BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
+Player player(AEVec2(0,-200), AEVec2(50,30),AE_COLORS_AIR_FORCE_BLUE, &playerBullet);
+EventManager PlayerManager;
+CollisionManager ColManager;
 void Level_1_Load()
 {
     Player* p = &player;
-    PlayerManager.addHandler([p](MoveEvent* event)
+    PlayerManager.addHandler([p](GameEvent* event)
         {
             p->OnInputEvent(event);
         });
-
+    
 }
 
 void Level_1_Init()
@@ -30,16 +34,24 @@ void Level_1_Update()
     bool guiActive = ShowFrameworkMenu();
     if (AEInputKeyPressed('A'))
     {
-        MoveEvent direction ;
-        direction.MoveType = Type::MoveLeft;
+        GameEvent direction ;
+        direction.PlayerType = Type::MoveLeft;
         PlayerManager.trigger(&direction);
     }
     if (AEInputKeyPressed('D'))
     {
-        MoveEvent direction;
-        direction.MoveType = Type::MoveRight;
+        GameEvent direction;
+        direction.PlayerType = Type::MoveRight;
         PlayerManager.trigger(&direction);
     }
+    if (AEInputKeyPressed(' '))
+    {
+        GameEvent shoot;
+        shoot.PlayerType = Type::Shoot;
+        PlayerManager.trigger(&shoot);
+    }
+
+    playerBullet.Update();
 }
 
 void Level_1_Render()
@@ -48,6 +60,7 @@ void Level_1_Render()
     AEGfxSetClearColor(AEGfxColor(0, 0, 0));
     AEGfxClearBuffer();
     player.Draw();
+    playerBullet.Draw();
 }
 
 void Level_1_Free()
