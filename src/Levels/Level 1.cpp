@@ -5,28 +5,34 @@
 #include "../Framework/Bullet.hh"
 #include "../Framework/EventManager.hh"
 #include "../Framework/CollisionManager.hh"
-
+#include "../Framework/Squadron.hh"
 int mode = 0;
 
 bool ShowFrameworkMenu();
 Bullet pBullet(10, 15, BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
-Player player(AEVec2(0,-200), AEVec2(30,20),AE_COLORS_AIR_FORCE_BLUE, &pBullet);
+Player player(AEVec2(0,-200), AEVec2(60,40),AE_COLORS_AIR_FORCE_BLUE, &pBullet);
+Bullet eBullet(10, 15, BulletType::EnemyBullet, AE_COLORS_AMBER);
+Enemy enemy(AEVec2(0, 200), AEVec2(30, 20), AE_COLORS_AMBER, &eBullet);
 EventManager PlayerManager;
 CollisionManager ColManager;
 void Level_1_Load()
 {
     Player* p = &player;
+    Enemy* e = &enemy;
     PlayerManager.addHandler([p](GameEvent* event)
         {
             p->OnInputEvent(event);
         });
 
-    ColManager.addHandler([p](CollisionEvent* event)
+    ColManager.addHandler([p,e](CollisionEvent* event)
         {
             p->OnColEvent(event);
+            e->OnColEvent(event);
         });
-    ColManager.b = &pBullet;
+    ColManager.bplayer = &pBullet;
+    ColManager.benemy = &eBullet;
     ColManager.p = p;
+    ColManager.eny = e;
 }
 
 void Level_1_Init()
@@ -56,9 +62,10 @@ void Level_1_Update()
         shoot.PlayerType = Type::Shoot;
         PlayerManager.trigger(&shoot);
     }
-
+    eBullet.Update();
     pBullet.Update();
     ColManager.update();
+    enemy.Update();
 }
 
 void Level_1_Render()
@@ -68,6 +75,7 @@ void Level_1_Render()
     AEGfxClearBuffer();
     player.Draw();
     pBullet.Draw();
+    enemy.Draw();
 }
 
 void Level_1_Free()

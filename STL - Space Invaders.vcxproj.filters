@@ -43,6 +43,9 @@
     <ClCompile Include="src\Framework\CollisionManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="src\Framework\Squadron.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Levels\Level 1.h">
@@ -73,6 +76,9 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="src\Framework\CollisionManager.hh">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Framework\Squadron.hh">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>

@@ -27,6 +27,7 @@
     <ClCompile Include="src\Framework\entity.cc" />
     <ClCompile Include="src\Framework\EventManager.cc" />
     <ClCompile Include="src\Framework\Player.cc" />
+    <ClCompile Include="src\Framework\Squadron.cpp" />
     <ClCompile Include="src\Levels\Level 1.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
@@ -40,6 +41,7 @@
     <ClInclude Include="src\Framework\entity.hh" />
     <ClInclude Include="src\Framework\EventManager.hh" />
     <ClInclude Include="src\Framework\Player.hh" />
+    <ClInclude Include="src\Framework\Squadron.hh" />
     <ClInclude Include="src\Levels\Level 1.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

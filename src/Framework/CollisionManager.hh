@@ -4,13 +4,16 @@
 #include <vector>
 #include <string>
 #include "AECore/inc/AEEngine.h"
-class Player;
+class Enemy;
 class Bullet;
-enum ColType {LeftWall,RightWall, BulletToEnemy, BulletToPlayer,BulletToWalls};
+class Player;
+enum ColType {LeftWall,RightWall, BulletToEnemy, BulletToPlayer, BulletToWalls};
+enum BeingType {BEnemy,BPlayer,EBullet,PBullet};
 class  CollisionEvent : public Event
 {
 public:
 	ColType col;
+	BeingType Being;
 };
 
 typedef std::function<void(CollisionEvent* event)> OnColEvent;
@@ -23,6 +26,9 @@ public:
 	void addHandler(OnColEvent event);
 	void trigger(CollisionEvent* event);
 	void update();
-	Bullet* b = nullptr;
+	Bullet* bplayer = nullptr;
+	Bullet* benemy = nullptr;
+
 	Player* p = nullptr;
+	Enemy* eny = nullptr;
 };

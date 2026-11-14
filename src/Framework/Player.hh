@@ -15,8 +15,8 @@ public:
 	void Draw() override;
 	void OnInputEvent(GameEvent* mEvent);
 	void OnColEvent(CollisionEvent* mEvent);
-	AEVec2 GetPos() { return position; }
-	AEVec2 GetScale() { return size; }
+	AEVec2& GetPos() { return position; }
+	AEVec2& GetScale() { return size; }
 private:
 	AEVec2 position;
 	AEVec2 size;
