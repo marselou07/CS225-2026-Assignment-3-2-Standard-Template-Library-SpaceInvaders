@@ -15,7 +15,9 @@ class Enemy : public Entity
 	bool CanShoot = true;
 	bool MoveRight = true;
 	Bullet* enemyBullet;
-	int speed = 100;
+	int shootTime = 8;
+	int speed = 110;
+	int counter = 10;
 public:
 	void OnColEvent(CollisionEvent* mEvent);
 	void Update() override;

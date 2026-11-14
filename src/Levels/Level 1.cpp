@@ -6,13 +6,14 @@
 #include "../Framework/EventManager.hh"
 #include "../Framework/CollisionManager.hh"
 #include "../Framework/Squadron.hh"
+#include "time.h"
 int mode = 0;
 
 bool ShowFrameworkMenu();
 Bullet pBullet(10, 15, BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
-Player player(AEVec2(0,-200), AEVec2(60,40),AE_COLORS_AIR_FORCE_BLUE, &pBullet);
-Bullet eBullet(10, 15, BulletType::EnemyBullet, AE_COLORS_AMBER);
-Enemy enemy(AEVec2(0, 200), AEVec2(30, 20), AE_COLORS_AMBER, &eBullet);
+Player player(AEVec2(0,-200), AEVec2(30,20),AE_COLORS_AIR_FORCE_BLUE, &pBullet);
+Bullet eBullet(10, 15, BulletType::EnemyBullet, AE_COLORS_ANDROID_GREEN);
+Enemy enemy(AEVec2(0, 200), AEVec2(60, 40), AE_COLORS_AMBER, &eBullet);
 EventManager PlayerManager;
 CollisionManager ColManager;
 void Level_1_Load()

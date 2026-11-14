@@ -8,7 +8,7 @@ void Bullet::Update()
 		{
 			position.y += speed * AEGetFrameTime();
 		}
-		else
+		else if(this->type == BulletType::EnemyBullet)
 		{
 			position.y -= speed * AEGetFrameTime();
 		}
