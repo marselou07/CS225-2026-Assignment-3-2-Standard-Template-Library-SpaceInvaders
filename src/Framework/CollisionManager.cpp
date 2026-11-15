@@ -31,29 +31,9 @@ void CollisionManager::update()
 			colT.Being = BeingType::PBullet;
 			trigger(&colT);
 		}
-		//if (AEStaticRectToStaticRect(&bplayer->position, bplayer->scale.x,
-		//	bplayer->scale.y, &eny->GetPos(), eny->GetScale().x, eny->GetScale().y))
-		//{
-		//	bplayer->active = false;
-		//	CollisionEvent colT;
-		//	colT.col = ColType::BulletToEnemy;
-		//	colT.Being = BeingType::PBullet;
-		//	trigger(&colT);
-		//}
+
 	}
-	//if (benemy->active)
-	//{
-	//	if(benemy->position.y - benemy->scale.y <= -halfy)
-	//	{
-	//		benemy->active = false;
-	//		CollisionEvent colT;
-	//		colT.col = ColType::BulletToWalls;
-	//		colT.Being = BeingType::EBullet;
-	//		trigger(&colT);
-	//	}
 
-
-	//}
 	if(p->GetPos().x + p->GetScale().x >= halfx)
 	{
 		CollisionEvent colT;
@@ -68,23 +48,6 @@ void CollisionManager::update()
 		colT.Being = BeingType::Player_;
 		trigger(&colT);
 	}
-	/*if (eny->isActive())
-	{
-		if(eny->GetPos().x + eny->GetScale().x >= halfx)
-		{
-			CollisionEvent colT;
-			colT.col = ColType::RightWall;
-			colT.Being = BeingType::Enemy_;
-			trigger(&colT);
-		}
-		if(eny->GetPos().x - eny->GetScale().x <= -halfx)
-		{
-			CollisionEvent colT;
-			colT.col = ColType::LeftWall;
-			colT.Being = BeingType::Enemy_;
-			trigger(&colT);
-		}
-	}*/
 	std::for_each(squad->squadron.begin(), squad->squadron.end(), [this, halfx](Enemy* e)
 		{
 			if (e->isActive() )
@@ -113,6 +76,28 @@ void CollisionManager::update()
 					colT.col = ColType::LeftWall;
 					colT.Being = BeingType::Enemy_;
 					colT.e = e;
+					trigger(&colT);
+				}
+			}
+		});
+	std::for_each(squad->sEnemyBullets.begin(), squad->sEnemyBullets.end(), [this, halfy](Bullet* b)
+		{
+			if (b->active)
+			{
+				if (b->position.y - b->scale.y <= -halfy)
+				{
+					b->active = false;
+					CollisionEvent colT;
+					colT.col = ColType::BulletToWalls;
+					colT.Being = BeingType::EBullet;
+					trigger(&colT);
+				}
+				if (AEStaticRectToStaticRect(&b->position, b->scale.x,
+					b->scale.y, &p->GetPos(), p->GetScale().x, p->GetScale().y) && p->Alive)
+				{
+					CollisionEvent colT;
+					colT.col = ColType::BulletToPlayer;
+					colT.Being = BeingType::EBullet;
 					trigger(&colT);
 				}
 			}

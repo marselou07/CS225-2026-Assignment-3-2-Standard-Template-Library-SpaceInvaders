@@ -49,7 +49,7 @@ void Player::OnColEvent(CollisionEvent* mEvent)
 	}
 	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::Player_)
 	{
-		position.x = (int)AEGetSysWindowWidth()/2  - size.x;
+		position.x = (int)AEGetSysWindowWidth() / 2 - size.x;
 	}
 	if (mEvent->col == ColType::LeftWall && mEvent->Being == BeingType::Player_)
 	{

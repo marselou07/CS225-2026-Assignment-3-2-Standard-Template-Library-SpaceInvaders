@@ -92,8 +92,7 @@ void Level_1_Free()
 {
     delete pBullet;
     delete player;
-
-    delete PlayerManager;
+    delete squadron;
     delete ColManager;
     Level_1_Load();
 }
@@ -102,7 +101,7 @@ void Level_1_Unload()
 {
     delete pBullet;
     delete player;
-
+    delete squadron;
     delete PlayerManager;
     delete ColManager;
 }
