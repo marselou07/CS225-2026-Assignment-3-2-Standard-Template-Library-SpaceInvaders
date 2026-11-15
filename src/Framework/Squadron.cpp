@@ -96,9 +96,9 @@ Squadron::Squadron(AEVec2 pos, AEVec2 scale, int color, AEVec2 Bulletscale)
 	squadron.resize(16);
 	sEnemyBullets.resize(16);
 	int index = 0;
-	std::for_each(sEnemyBullets.begin(), sEnemyBullets.end(), [scale, color, Bulletscale,this](Bullet*& b)
+	std::for_each(sEnemyBullets.begin(), sEnemyBullets.end(), [ color, Bulletscale,this](Bullet*& b)
 		{
-			b = new Bullet(scale, BulletType::EnemyBullet, color);
+			b = new Bullet(Bulletscale, BulletType::EnemyBullet, color);
 
 
 
@@ -107,9 +107,9 @@ Squadron::Squadron(AEVec2 pos, AEVec2 scale, int color, AEVec2 Bulletscale)
 		{
 			int row = index / 4;
 			int coll = index % 4;
-
-			//this->sEnemyBullets[index];
-
+			float x = pos.x + coll * this->spacex;
+			float y = pos.y - row * this->spacey;
+			e = new Enemy(AEVec2(x, y), scale, color, this->sEnemyBullets[index]);
 
 
 

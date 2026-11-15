@@ -33,6 +33,8 @@ class Squadron
 {
 	std::vector<Enemy*> squadron;
 	std::vector<Bullet*> sEnemyBullets;
+	int spacex = 80;
+	int spacey = 40;
 public:
 	Squadron(AEVec2 pos,AEVec2 scale, int color, AEVec2 Bulletscale);
 	void Update();

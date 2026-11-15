@@ -16,12 +16,14 @@ Bullet* eBullet;
 Enemy *enemy;
 EventManager* PlayerManager;
 CollisionManager* ColManager;
+Squadron* squadron;
 void Level_1_Load()
 {
     pBullet = new Bullet(AEVec2(10, 15), BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
     player = new Player(AEVec2(0, -200), AEVec2(30, 20), AE_COLORS_AIR_FORCE_BLUE, pBullet);
     eBullet = new Bullet(AEVec2(10, 15), BulletType::EnemyBullet, AE_COLORS_ANDROID_GREEN);
     enemy = new Enemy(AEVec2(0, 200), AEVec2(60, 40), AE_COLORS_AMBER, eBullet);
+    squadron = new Squadron(AEVec2(-130, 250), AEVec2(30, 20), AE_COLORS_AMBER, AEVec2(10, 15));
     PlayerManager = new EventManager();
     ColManager = new CollisionManager();
     Player* p = player;
@@ -73,10 +75,10 @@ void Level_1_Update()
     {
         Level_1_Free();
     }
-    eBullet->Update();
+    //eBullet->Update();
     pBullet->Update();
     ColManager->update();
-    enemy->Update();
+    //enemy->Update();
 }
 
 void Level_1_Render()
@@ -86,8 +88,9 @@ void Level_1_Render()
     AEGfxClearBuffer();
     player->Draw();
     pBullet->Draw();
-    eBullet->Draw();
-    enemy->Draw();
+    squadron->Draw();
+    //eBullet->Draw();
+    //enemy->Draw();
 }
 
 void Level_1_Free()
