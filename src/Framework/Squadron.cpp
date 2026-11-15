@@ -39,6 +39,12 @@ void Enemy::Draw()
 		AEGfxRect(pos.x, pos.y, 0, scale.x, scale.y, color);
 	}
 }
+void Enemy::RestartPool()
+{
+	pos = startPos;
+	active = true;
+	MoveRight = true;
+}
 Enemy::Enemy(AEVec2 pos, AEVec2 scale, int color, Bullet* ebullet)
 {
 	this->pos = pos;
@@ -120,6 +126,20 @@ void Squadron::Update()
 		{
 			b->Update();
 		});
+	bool Is = std::all_of(squadron.begin(), squadron.end(), [](Enemy * e) 
+		{
+			return !(e->isActive());
+		});
+	if (Is)
+	{
+		std::for_each(squadron.begin(), squadron.end(), [](Enemy *& e)
+			{
+				e->RestartPool();
+				
+
+			});
+	}
+	
 }
 void Squadron::Draw()
 {

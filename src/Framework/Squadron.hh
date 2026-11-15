@@ -27,6 +27,8 @@ public:
 	AEVec2& GetPos() { return pos; }
 	AEVec2& GetScale() { return scale; }
 	bool isActive() { return active; }
+	void RestartPool();
+	
 	Enemy(AEVec2 pos,AEVec2 scale,int color,Bullet* ebullet);
 };
 class Squadron 
@@ -34,11 +36,15 @@ class Squadron
 
 	int spacex = 80;
 	int spacey = 40;
+	bool IsAlive = true;
 public:
 	std::vector<Enemy*> squadron;
 	std::vector<Bullet*> sEnemyBullets;
 	Squadron(AEVec2 pos,AEVec2 scale, int color, AEVec2 Bulletscale);
 	void Update();
 	void Draw();
+	bool IsALIVE() {
+		return IsAlive;
+	}
 	void OnColEvent(CollisionEvent* mEvent);
 };
