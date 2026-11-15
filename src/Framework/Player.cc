@@ -36,20 +36,22 @@ void Player::OnColEvent(CollisionEvent* mEvent)
 	if (mEvent->col == ColType::BulletToWalls && mEvent->Being == BeingType::PBullet)
 	{
 		shoot = true;
+		bullet->Deactive();
 	}
 	if (mEvent->col == ColType::BulletToEnemy && mEvent->Being == BeingType::PBullet)
 	{
 		shoot = true;
+		bullet->Deactive();
 	}
 	if (mEvent->col == ColType::BulletToPlayer && mEvent->Being == BeingType::EBullet)
 	{
 		Alive = false;
 	}
-	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::BPlayer)
+	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::Player_)
 	{
 		position.x = (int)AEGetSysWindowWidth()/2  - size.x;
 	}
-	if (mEvent->col == ColType::LeftWall && mEvent->Being == BeingType::BPlayer)
+	if (mEvent->col == ColType::LeftWall && mEvent->Being == BeingType::Player_)
 	{
 		position.x = -(int)AEGetSysWindowWidth() / 2 + size.x;
 	}

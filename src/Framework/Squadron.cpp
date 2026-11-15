@@ -17,14 +17,7 @@ void Enemy::Update()
 
 
 	}
-		if (counter != 0 && !active)
-		{
-			counter--;
-		}
-		else if(counter == 0 && !active)
-		{
-			active = true;
-		}
+
 		if (CanShoot && shootTime == 0 && active)
 		{
 			enemyBullet->active = true;
@@ -58,14 +51,15 @@ Enemy::Enemy(AEVec2 pos, AEVec2 scale, int color, Bullet* ebullet)
 
 void Enemy::OnColEvent(CollisionEvent* mEvent)
 {
-	if (mEvent->col == ColType::BulletToEnemy && mEvent->Being == BeingType::PBullet)
+	if (mEvent->col == ColType::BulletToEnemy && mEvent->Being == BeingType::PBullet
+		&& mEvent->e == this)
 	{
 		active = false;
-		pos = startPos;
-		MoveRight = true;
-		counter = 20;
-		shootTime = 11;
-		CanShoot = true;
+		//pos = startPos;
+		//MoveRight = true;
+		//counter = 20;
+		//shootTime = 11;
+		//CanShoot = false;
 	}
 	if (mEvent->col == ColType::BulletToWalls && mEvent->Being == BeingType::EBullet)
 	{
@@ -74,13 +68,13 @@ void Enemy::OnColEvent(CollisionEvent* mEvent)
 		CanShoot = true;
 
 	}
-	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::BEnemy)
+	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::Enemy_)
 	{
 		MoveRight = false;
-		pos.y -= 20;
+		pos.y -= 10;
 		
 	}
-	if (mEvent->col == ColType::LeftWall && mEvent->Being == BeingType::BEnemy)
+	if (mEvent->col == ColType::LeftWall && mEvent->Being == BeingType::Enemy_)
 	{
 		MoveRight = true;
 		pos.y -= 20;
@@ -122,6 +116,10 @@ void Squadron::Update()
 		{
 			e->Update();
 		});
+	std::for_each(sEnemyBullets.begin(), sEnemyBullets.end(), [](Bullet* b)
+		{
+			b->Update();
+		});
 }
 void Squadron::Draw()
 {
@@ -129,4 +127,43 @@ void Squadron::Draw()
 		{
 			e->Draw();
 		});
+	std::for_each(sEnemyBullets.begin(), sEnemyBullets.end(), [](Bullet* b)
+		{
+			b->Draw();
+		});
+}
+
+void Squadron::OnColEvent(CollisionEvent* mEvent)
+{
+	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::Enemy_)
+	{
+		std::for_each(squadron.begin(), squadron.end(), [mEvent](Enemy* e)
+			{
+
+				e->OnColEvent(mEvent);
+				
+
+			});
+	}
+	if (mEvent->col == ColType::LeftWall && mEvent->Being == BeingType::Enemy_)
+	{
+		std::for_each(squadron.begin(), squadron.end(), [mEvent](Enemy* e)
+			{
+
+				e->OnColEvent(mEvent);
+
+
+			});
+	}
+	if (mEvent->col == ColType::BulletToEnemy && mEvent->Being == BeingType::PBullet)
+	{
+		std::for_each(squadron.begin(), squadron.end(), [mEvent](Enemy *e)
+		{
+				if (e == mEvent->e)
+				{
+					e->OnColEvent(mEvent);
+				}
+			 
+		});
+	}
 }

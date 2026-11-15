@@ -12,8 +12,6 @@ int mode = 0;
 bool ShowFrameworkMenu();
 Bullet* pBullet;
 Player* player;
-Bullet* eBullet;
-Enemy *enemy;
 EventManager* PlayerManager;
 CollisionManager* ColManager;
 Squadron* squadron;
@@ -21,27 +19,24 @@ void Level_1_Load()
 {
     pBullet = new Bullet(AEVec2(10, 15), BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
     player = new Player(AEVec2(0, -200), AEVec2(30, 20), AE_COLORS_AIR_FORCE_BLUE, pBullet);
-    eBullet = new Bullet(AEVec2(10, 15), BulletType::EnemyBullet, AE_COLORS_ANDROID_GREEN);
-    enemy = new Enemy(AEVec2(0, 200), AEVec2(60, 40), AE_COLORS_AMBER, eBullet);
     squadron = new Squadron(AEVec2(-130, 250), AEVec2(30, 20), AE_COLORS_AMBER, AEVec2(10, 15));
     PlayerManager = new EventManager();
     ColManager = new CollisionManager();
     Player* p = player;
-    Enemy* e = enemy;
+    Squadron* s = squadron;
     PlayerManager->addHandler([p](GameEvent* event)
         {
             p->OnInputEvent(event);
         });
 
-    ColManager->addHandler([p,e](CollisionEvent* event)
+    ColManager->addHandler([p, s](CollisionEvent* event)
         {
             p->OnColEvent(event);
-            e->OnColEvent(event);
+            s->OnColEvent(event);
         });
     ColManager->bplayer = pBullet;
-    ColManager->benemy = eBullet;
     ColManager->p = p;
-    ColManager->eny = e;
+    ColManager->squad = s;
 }
 
 void Level_1_Init()
@@ -79,6 +74,7 @@ void Level_1_Update()
     pBullet->Update();
     ColManager->update();
     //enemy->Update();
+    squadron->Update();
 }
 
 void Level_1_Render()
@@ -89,16 +85,14 @@ void Level_1_Render()
     player->Draw();
     pBullet->Draw();
     squadron->Draw();
-    //eBullet->Draw();
-    //enemy->Draw();
+
 }
 
 void Level_1_Free()
 {
     delete pBullet;
     delete player;
-    delete eBullet;
-    delete enemy;
+
     delete PlayerManager;
     delete ColManager;
     Level_1_Load();
@@ -108,8 +102,7 @@ void Level_1_Unload()
 {
     delete pBullet;
     delete player;
-    delete eBullet;
-    delete enemy;
+
     delete PlayerManager;
     delete ColManager;
 }

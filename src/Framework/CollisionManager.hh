@@ -7,13 +7,15 @@
 class Enemy;
 class Bullet;
 class Player;
+class Squadron;
 enum ColType {LeftWall,RightWall, BulletToEnemy, BulletToPlayer, BulletToWalls};
-enum BeingType {BEnemy,BPlayer,EBullet,PBullet};
+enum BeingType {Enemy_,Player_,EBullet,PBullet};
 class  CollisionEvent : public Event
 {
 public:
 	ColType col;
 	BeingType Being;
+	Enemy* e;
 };
 
 typedef std::function<void(CollisionEvent* event)> OnColEvent;
@@ -28,7 +30,7 @@ public:
 	void update();
 	CollisionManager();
 	Bullet* bplayer = nullptr;
-	Bullet* benemy = nullptr;
 	Player* p = nullptr;
-	Enemy* eny = nullptr;
+
+	Squadron* squad = nullptr;
 };
