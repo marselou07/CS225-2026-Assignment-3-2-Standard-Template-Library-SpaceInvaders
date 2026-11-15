@@ -1,5 +1,7 @@
 #include "Squadron.hh"
-#include "time.h"
+#include <ctime>
+#include <random>
+
 void Enemy::Update()
 {
 	if (active)
@@ -132,13 +134,22 @@ void Squadron::Update()
 		});
 	if (Is)
 	{
-		std::for_each(squadron.begin(), squadron.end(), [](Enemy *& e)
+		std::for_each(squadron.begin(), squadron.end(), [](Enemy * e)
 			{
 				e->RestartPool();
 				
 
 			});
 	}
+	if (counter != 0)
+	{
+		counter--;
+	}
+	else
+	{
+
+	}
+
 	
 }
 void Squadron::Draw()

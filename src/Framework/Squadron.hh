@@ -37,6 +37,7 @@ class Squadron
 	int spacex = 80;
 	int spacey = 40;
 	bool IsAlive = true;
+	int counter = 20;
 public:
 	std::vector<Enemy*> squadron;
 	std::vector<Bullet*> sEnemyBullets;
