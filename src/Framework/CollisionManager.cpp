@@ -43,7 +43,7 @@ void CollisionManager::update()
 	}
 	if (benemy->active)
 	{
-		if (benemy->position.y - benemy->scale.y <= -halfy)
+		if(benemy->position.y - benemy->scale.y <= -halfy)
 		{
 			benemy->active = false;
 			CollisionEvent colT;
@@ -51,7 +51,7 @@ void CollisionManager::update()
 			colT.Being = BeingType::EBullet;
 			trigger(&colT);
 		}
-		if (AEStaticRectToStaticRect(&benemy->position, benemy->scale.x,
+		if(AEStaticRectToStaticRect(&benemy->position, benemy->scale.x,
 			benemy->scale.y, &p->GetPos(), p->GetScale().x, p->GetScale().y))
 		{
 			benemy->active = false;
@@ -62,30 +62,30 @@ void CollisionManager::update()
 		}
 
 	}
-	if (p->GetPos().x + p->GetScale().x >= halfx)
+	if(p->GetPos().x + p->GetScale().x >= halfx)
 	{
 		CollisionEvent colT;
 		colT.col = ColType::RightWall;
 		colT.Being = BeingType::BPlayer;
 		trigger(&colT);
 	}
-	if (p->GetPos().x - p->GetScale().x <= -halfx)
+	if(p->GetPos().x - p->GetScale().x <= -halfx)
 	{
 		CollisionEvent colT;
 		colT.col = ColType::LeftWall;
 		colT.Being = BeingType::BPlayer;
 		trigger(&colT);
 	}
-	if (eny->isActive())
+	if(eny->isActive())
 	{
-		if (eny->GetPos().x + eny->GetScale().x >= halfx)
+		if(eny->GetPos().x + eny->GetScale().x >= halfx)
 		{
 			CollisionEvent colT;
 			colT.col = ColType::RightWall;
 			colT.Being = BeingType::BEnemy;
 			trigger(&colT);
 		}
-		if (eny->GetPos().x - eny->GetScale().x <= -halfx)
+		if(eny->GetPos().x - eny->GetScale().x <= -halfx)
 		{
 			CollisionEvent colT;
 			colT.col = ColType::LeftWall;
@@ -93,4 +93,10 @@ void CollisionManager::update()
 			trigger(&colT);
 		}
 	}
+}
+
+
+
+CollisionManager::CollisionManager()
+{
 }

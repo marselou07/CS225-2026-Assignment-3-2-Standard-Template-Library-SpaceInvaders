@@ -10,30 +10,36 @@
 int mode = 0;
 
 bool ShowFrameworkMenu();
-Bullet pBullet(10, 15, BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
-Player player(AEVec2(0,-200), AEVec2(30,20),AE_COLORS_AIR_FORCE_BLUE, &pBullet);
-Bullet eBullet(10, 15, BulletType::EnemyBullet, AE_COLORS_ANDROID_GREEN);
-Enemy enemy(AEVec2(0, 200), AEVec2(60, 40), AE_COLORS_AMBER, &eBullet);
-EventManager PlayerManager;
-CollisionManager ColManager;
+Bullet* pBullet;
+Player* player;
+Bullet* eBullet;
+Enemy *enemy;
+EventManager* PlayerManager;
+CollisionManager* ColManager;
 void Level_1_Load()
 {
-    Player* p = &player;
-    Enemy* e = &enemy;
-    PlayerManager.addHandler([p](GameEvent* event)
+    pBullet = new Bullet(AEVec2(10, 15), BulletType::PlayerBullet, AE_COLORS_AIR_FORCE_BLUE);
+    player = new Player(AEVec2(0, -200), AEVec2(30, 20), AE_COLORS_AIR_FORCE_BLUE, pBullet);
+    eBullet = new Bullet(AEVec2(10, 15), BulletType::EnemyBullet, AE_COLORS_ANDROID_GREEN);
+    enemy = new Enemy(AEVec2(0, 200), AEVec2(60, 40), AE_COLORS_AMBER, eBullet);
+    PlayerManager = new EventManager();
+    ColManager = new CollisionManager();
+    Player* p = player;
+    Enemy* e = enemy;
+    PlayerManager->addHandler([p](GameEvent* event)
         {
             p->OnInputEvent(event);
         });
 
-    ColManager.addHandler([p,e](CollisionEvent* event)
+    ColManager->addHandler([p,e](CollisionEvent* event)
         {
             p->OnColEvent(event);
             e->OnColEvent(event);
         });
-    ColManager.bplayer = &pBullet;
-    ColManager.benemy = &eBullet;
-    ColManager.p = p;
-    ColManager.eny = e;
+    ColManager->bplayer = pBullet;
+    ColManager->benemy = eBullet;
+    ColManager->p = p;
+    ColManager->eny = e;
 }
 
 void Level_1_Init()
@@ -49,24 +55,28 @@ void Level_1_Update()
     {
         GameEvent direction ;
         direction.PlayerType = Type::MoveLeft;
-        PlayerManager.trigger(&direction);
+        PlayerManager->trigger(&direction);
     }
     if (AEInputKeyPressed('D'))
     {
         GameEvent direction;
         direction.PlayerType = Type::MoveRight;
-        PlayerManager.trigger(&direction);
+        PlayerManager->trigger(&direction);
     }
     if (AEInputKeyPressed(' '))
     {
         GameEvent shoot;
         shoot.PlayerType = Type::Shoot;
-        PlayerManager.trigger(&shoot);
+        PlayerManager->trigger(&shoot);
     }
-    eBullet.Update();
-    pBullet.Update();
-    ColManager.update();
-    enemy.Update();
+    if (player->Alive == false)
+    {
+        Level_1_Free();
+    }
+    eBullet->Update();
+    pBullet->Update();
+    ColManager->update();
+    enemy->Update();
 }
 
 void Level_1_Render()
@@ -74,18 +84,31 @@ void Level_1_Render()
     // clear frame buffer, do not delete this code
     AEGfxSetClearColor(AEGfxColor(0, 0, 0));
     AEGfxClearBuffer();
-    player.Draw();
-    pBullet.Draw();
-    enemy.Draw();
+    player->Draw();
+    pBullet->Draw();
+    eBullet->Draw();
+    enemy->Draw();
 }
 
 void Level_1_Free()
 {
-
+    delete pBullet;
+    delete player;
+    delete eBullet;
+    delete enemy;
+    delete PlayerManager;
+    delete ColManager;
+    Level_1_Load();
 }
 
 void Level_1_Unload()
 {
+    delete pBullet;
+    delete player;
+    delete eBullet;
+    delete enemy;
+    delete PlayerManager;
+    delete ColManager;
 }
 
 void KeyboardInput()

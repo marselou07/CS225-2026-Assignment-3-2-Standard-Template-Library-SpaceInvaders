@@ -6,7 +6,7 @@ enum BulletType {EnemyBullet, PlayerBullet};
 class Bullet : public Entity
 {
 public:
-    Bullet( int sx, int sy, BulletType type, int color) : scale(sx, sy),
+    Bullet( AEVec2 s, BulletType type, int color) : scale(s),
         type(type),color(color)
     {}
     void Update() override;

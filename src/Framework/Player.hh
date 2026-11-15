@@ -17,6 +17,7 @@ public:
 	void OnColEvent(CollisionEvent* mEvent);
 	AEVec2& GetPos() { return position; }
 	AEVec2& GetScale() { return size; }
+	bool Alive = true;
 private:
 	AEVec2 position;
 	AEVec2 size;

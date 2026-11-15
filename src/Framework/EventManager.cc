@@ -13,3 +13,8 @@ void EventManager::trigger(GameEvent* event)
 
 		});
 }
+
+EventManager::EventManager()
+{
+	
+}

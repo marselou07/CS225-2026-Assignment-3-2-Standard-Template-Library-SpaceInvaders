@@ -26,9 +26,9 @@ public:
 	void addHandler(OnColEvent event);
 	void trigger(CollisionEvent* event);
 	void update();
+	CollisionManager();
 	Bullet* bplayer = nullptr;
 	Bullet* benemy = nullptr;
-
 	Player* p = nullptr;
 	Enemy* eny = nullptr;
 };

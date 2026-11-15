@@ -20,5 +20,5 @@ protected:
 public:
 	void addHandler(OnEvent event);
 	void trigger(GameEvent* event);
-
+	EventManager();
 };

@@ -41,6 +41,10 @@ void Player::OnColEvent(CollisionEvent* mEvent)
 	{
 		shoot = true;
 	}
+	if (mEvent->col == ColType::BulletToPlayer && mEvent->Being == BeingType::EBullet)
+	{
+		Alive = false;
+	}
 	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::BPlayer)
 	{
 		position.x = (int)AEGetSysWindowWidth()/2  - size.x;

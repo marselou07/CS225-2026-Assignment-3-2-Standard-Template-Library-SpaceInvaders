@@ -63,13 +63,13 @@ void Enemy::OnColEvent(CollisionEvent* mEvent)
 		active = false;
 		pos = startPos;
 		MoveRight = true;
-		counter = 10;
-		shootTime = 5;
+		counter = 20;
+		shootTime = 11;
 		CanShoot = true;
 	}
 	if (mEvent->col == ColType::BulletToWalls && mEvent->Being == BeingType::EBullet)
 	{
-		shootTime = 5;
+		shootTime = 11;
 		enemyBullet->active = false;
 		CanShoot = true;
 
@@ -87,12 +87,46 @@ void Enemy::OnColEvent(CollisionEvent* mEvent)
 
 	}
 }
+//--------------------------------
+//Squadron part
 
 
-
-
-
-Squadron::Squadron(AEVec2 pos, AEVec2 scale, int color)
+Squadron::Squadron(AEVec2 pos, AEVec2 scale, int color, AEVec2 Bulletscale)
 {
-	
+	squadron.resize(16);
+	sEnemyBullets.resize(16);
+	int index = 0;
+	std::for_each(sEnemyBullets.begin(), sEnemyBullets.end(), [scale, color, Bulletscale,this](Bullet*& b)
+		{
+			b = new Bullet(scale, BulletType::EnemyBullet, color);
+
+
+
+		});
+	std::for_each(squadron.begin(), squadron.end(), [pos, scale, color, &index, this](Enemy *& e)
+		{
+			int row = index / 4;
+			int coll = index % 4;
+
+			//this->sEnemyBullets[index];
+
+
+
+
+			index++;
+		});
+}
+void Squadron::Update()
+{
+	std::for_each(squadron.begin(), squadron.end(), [](Enemy* e)
+		{
+			e->Update();
+		});
+}
+void Squadron::Draw()
+{
+	std::for_each(squadron.begin(), squadron.end(), [](Enemy* e)
+		{
+			e->Draw();
+		});
 }

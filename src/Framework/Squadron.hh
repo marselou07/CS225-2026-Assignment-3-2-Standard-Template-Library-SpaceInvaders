@@ -4,6 +4,8 @@
 #include <AEEngine.h>
 #include "EventManager.hh"
 #include "CollisionManager.hh"
+#include <algorithm> 
+#include <vector>
 #include "Bullet.hh"
 class Enemy : public Entity
 {
@@ -15,9 +17,9 @@ class Enemy : public Entity
 	bool CanShoot = true;
 	bool MoveRight = true;
 	Bullet* enemyBullet;
-	int shootTime = 8;
-	int speed = 110;
-	int counter = 10;
+	int shootTime = 11;
+	int speed = 90;
+	int counter = 20;
 public:
 	void OnColEvent(CollisionEvent* mEvent);
 	void Update() override;
@@ -27,9 +29,12 @@ public:
 	bool isActive() { return active; }
 	Enemy(AEVec2 pos,AEVec2 scale,int color,Bullet* ebullet);
 };
-class Squadron
+class Squadron 
 {
-	std::vector<Enemy> squadron;
+	std::vector<Enemy*> squadron;
+	std::vector<Bullet*> sEnemyBullets;
 public:
-	Squadron(AEVec2 pos,AEVec2 scale, int color);
+	Squadron(AEVec2 pos,AEVec2 scale, int color, AEVec2 Bulletscale);
+	void Update();
+	void Draw();
 };
