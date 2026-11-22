@@ -1,16 +1,39 @@
 #include "Player.hh"
+/******************************************************************************
+filename    CollisionManager.cc
+author      Markel Susial de la fuente
+DP email    markel.susial@digipen.edu
+course      cs225
+assignment  3.2
+due date    17/11/2026
 
+Brief Description: handle the collisions of everything
+******************************************************************************/
 
-
+/**
+ * Update
+ * @param context: do nothing 
+ * @return nothing
+ */
 void Player::Update()
 {
 }
-
+/**
+ * Draw
+ * @param context: draw the player
+ * @return nothing
+ */
 void Player::Draw()
 {
 	AEGfxRect(position.x , position.y , 0, size.x, size.y, color);
 }
-
+/**
+ * OnInputEvent
+ * @param context: depends of each event it will
+ * perform different task
+ * GameEvent* mEvent: the type of input event
+ * @return nothing
+ */
 void Player::OnInputEvent(GameEvent* mEvent)
 {
 	if (mEvent->PlayerType == Type::MoveRight)
@@ -30,7 +53,13 @@ void Player::OnInputEvent(GameEvent* mEvent)
 	}
 
 }
-
+/**
+ * OnColEvent
+ * @param context: handle the collision of
+ * the player
+ * CollisionEvent* mEvent: the type of col event
+ * @return nothing
+ */
 void Player::OnColEvent(CollisionEvent* mEvent)
 {
 	if (mEvent->col == ColType::BulletToWalls && mEvent->Being == BeingType::PBullet)
@@ -55,4 +84,15 @@ void Player::OnColEvent(CollisionEvent* mEvent)
 	{
 		position.x = -(int)AEGetSysWindowWidth() / 2 + size.x;
 	}
+}
+/**
+ * Restart
+ * @param context: restart the player
+ * @return nothing
+ */
+void Player::Restart()
+{
+	position = originalpos;
+	shoot = true;
+	bullet->active = false;
 }

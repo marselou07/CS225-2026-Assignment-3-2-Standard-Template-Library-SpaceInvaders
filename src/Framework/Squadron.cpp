@@ -1,7 +1,22 @@
 #include "Squadron.hh"
 #include <ctime>
 #include <random>
+/******************************************************************************
+filename    Squadron.cc
+author      Markel Susial de la fuente
+DP email    markel.susial@digipen.edu
+course      cs225
+assignment  3.2
+due date    17/11/2026
 
+Brief Description: create the logic of the enemy and a
+squadron
+******************************************************************************/
+/**
+ * Update
+ * @param context: update the enemiy movement
+ * @return nothing
+ */
 void Enemy::Update()
 {
 	if (active)
@@ -20,20 +35,12 @@ void Enemy::Update()
 
 	}
 
-		if (CanShoot && shootTime == 0 && active)
-		{
-			enemyBullet->active = true;
-			enemyBullet->position.x = pos.x;
-			enemyBullet->position.y = pos.y - scale.y;
-			CanShoot = false;
-		}
-		else if (CanShoot && shootTime != 0 && active)
-		{
-			shootTime--;
-		}
-
 }
-
+/**
+ * Draw
+ * @param context: draw the enemy
+ * @return nothing
+ */
 void Enemy::Draw()
 {
 	if (active)
@@ -41,12 +48,40 @@ void Enemy::Draw()
 		AEGfxRect(pos.x, pos.y, 0, scale.x, scale.y, color);
 	}
 }
+/**
+ * RestartPool
+ * @param context: for each enemy restart it
+ * @return nothing
+ */
 void Enemy::RestartPool()
 {
 	pos = startPos;
 	active = true;
+	enemyBullet->active = false;
 	MoveRight = true;
 }
+/**
+ * Shoot
+ * @param context: shoot an enemy bullet
+ * @return nothing
+ */
+void Enemy::Shoot()
+{
+	if (active == true)
+	{
+		if (!this->enemyBullet->active )
+		{
+			enemyBullet->active = true;
+			enemyBullet->position.x = pos.x;
+			enemyBullet->position.y = pos.y - scale.y;
+		}
+	}
+}
+/**
+ * Constructor
+ * @param context: initialize the enemy
+ * @return nothing
+ */
 Enemy::Enemy(AEVec2 pos, AEVec2 scale, int color, Bullet* ebullet)
 {
 	this->pos = pos;
@@ -56,22 +91,23 @@ Enemy::Enemy(AEVec2 pos, AEVec2 scale, int color, Bullet* ebullet)
 	enemyBullet = ebullet;
 }
 
-
+/**
+ * OnColEvent
+ * @param context: handle the collision of
+ * the enemies
+ * CollisionEvent* mEvent: the type of col event
+ * @return nothing
+ */
 void Enemy::OnColEvent(CollisionEvent* mEvent)
 {
+	//The squadron will send this information to an specific enemy
 	if (mEvent->col == ColType::BulletToEnemy && mEvent->Being == BeingType::PBullet
 		&& mEvent->e == this)
 	{
 		active = false;
-		//pos = startPos;
-		//MoveRight = true;
-		//counter = 20;
-		//shootTime = 11;
-		//CanShoot = false;
 	}
 	if (mEvent->col == ColType::BulletToWalls && mEvent->Being == BeingType::EBullet)
 	{
-		shootTime = 11;
 		enemyBullet->active = false;
 		CanShoot = true;
 
@@ -92,9 +128,14 @@ void Enemy::OnColEvent(CollisionEvent* mEvent)
 //--------------------------------
 //Squadron part
 
-
+/**
+ * Squadron
+ * @param context: constructor initialize each enemy and enemy bullet
+ * @return nothing
+ */
 Squadron::Squadron(AEVec2 pos, AEVec2 scale, int color, AEVec2 Bulletscale)
 {
+	std::srand(std::time(0));
 	squadron.resize(16);
 	sEnemyBullets.resize(16);
 	int index = 0;
@@ -118,6 +159,11 @@ Squadron::Squadron(AEVec2 pos, AEVec2 scale, int color, AEVec2 Bulletscale)
 			index++;
 		});
 }
+/**
+ * Update
+ * @param context:update the squadron
+ * @return nothing
+ */
 void Squadron::Update()
 {
 	std::for_each(squadron.begin(), squadron.end(), [](Enemy* e)
@@ -134,12 +180,7 @@ void Squadron::Update()
 		});
 	if (Is)
 	{
-		std::for_each(squadron.begin(), squadron.end(), [](Enemy * e)
-			{
-				e->RestartPool();
-				
-
-			});
+		RestartSq();
 	}
 	if (counter != 0)
 	{
@@ -147,11 +188,21 @@ void Squadron::Update()
 	}
 	else
 	{
-
+		int rpos = std::rand() % squadron.size();
+		if (squadron[rpos]->isActive() && squadron[rpos]->BulletNotShoot() == false)
+		{
+			squadron[rpos]->Shoot();
+			counter = 60;
+		}
 	}
 
 	
 }
+/**
+ * Draw
+ * @param context:draw all enemies and their bullets
+ * @return nothing
+ */
 void Squadron::Draw()
 {
 	std::for_each(squadron.begin(), squadron.end(), [](Enemy* e)
@@ -163,7 +214,29 @@ void Squadron::Draw()
 			b->Draw();
 		});
 }
+/**
+ * RestartSq
+ * @param context: restart all enemies
+ * @return nothing
+ */
+void Squadron::RestartSq()
+{
 
+	std::for_each(squadron.begin(), squadron.end(), [](Enemy* e)
+			{
+				e->RestartPool();
+
+
+		});
+	
+}
+/**
+ * OnColEvent
+ * @param context: handle the collision of
+ * all the enemy squadron
+ * CollisionEvent* mEvent: the type of col event
+ * @return nothing
+ */
 void Squadron::OnColEvent(CollisionEvent* mEvent)
 {
 	if (mEvent->col == ColType::RightWall && mEvent->Being == BeingType::Enemy_)

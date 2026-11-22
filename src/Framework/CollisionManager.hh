@@ -28,7 +28,7 @@ public:
 	void addHandler(OnColEvent event);
 	void trigger(CollisionEvent* event);
 	void update();
-	CollisionManager();
+	CollisionManager(Player* pa, Bullet* b, Squadron* s) :p(pa), bplayer(b), squad(s) {}
 	Bullet* bplayer = nullptr;
 	Player* p = nullptr;
 

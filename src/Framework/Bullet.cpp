@@ -1,5 +1,19 @@
 #include "Bullet.hh"
+/******************************************************************************
+filename    Bullet.cc
+author      Markel Susial de la fuente
+DP email    markel.susial@digipen.edu
+course      cs225
+assignment  3.2
+due date    17/11/2026
 
+Brief Description: create the logic of bullets
+******************************************************************************/
+/**
+ * Update
+ * @param context: update the bullet movement
+ * @return nothing
+ */
 void Bullet::Update()
 {
 	if (active)
@@ -15,7 +29,11 @@ void Bullet::Update()
 	}
 
 }
-
+/**
+ * Draw
+ * @param context: draw the bullets
+ * @return nothing
+ */
 void Bullet::Draw()
 {
 	if (active)
@@ -24,7 +42,11 @@ void Bullet::Draw()
 	}
 	
 }
-
+/**
+ * Draw
+ * @param context: dactive the bullets
+ * @return nothing
+ */
 void Bullet::Deactive()
 {
 	active = false;
